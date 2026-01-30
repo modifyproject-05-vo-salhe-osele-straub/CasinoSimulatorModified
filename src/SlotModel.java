@@ -140,6 +140,23 @@ public class SlotModel {
     public String matchCheck() {
         int winningMoney = 0;
         boolean checkIfWon = false;
+
+        // NEW implementation: check for jackpot
+        if (slot[0] == 7 && slot[1] == 7 && slot[2] == 7 &&
+            slot[3] == 7 && slot[4] == 7 && slot[5] == 7 &&
+            slot[6] == 7 && slot[7] == 7 && slot[8] == 7) {
+                if (MainMenuView.gamemode == "Simulated Casino") {
+                    winningMoney = bettingMoney * 100; // 100x Jackpot win
+                    money += winningMoney;
+                }
+                try {
+                    playWinSound();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return "JACKPOT!!";
+            }
+            
         if (MainMenuView.gamemode == "Simulated Casino") {
             //first row
             if (slot[0] == slot[1] && slot[1] == slot[2]) {
