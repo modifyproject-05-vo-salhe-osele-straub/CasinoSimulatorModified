@@ -3,6 +3,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.beans.Transient;
+
 class SlotModelTest {
     public SlotModel slotModel;
 
@@ -173,5 +175,30 @@ class SlotModelTest {
         slotModel.matchCheck();
         assertEquals(100, slotModel.getMoney());
     }
+
+
+    
+    @Test
+    public void allSlotsAreSevens() {
+        MainMenuModel mainMenuModel = new MainMenuModel();
+        MainMenuView.gamemode = "Simulated Casino";
+        SlotModel slotModel = new SlotModel(mainMenuModel, 100);
+        slotModel.setBettingMoney(10);
+        
+        // set all slots to 7
+        slotModel.setSlot(0, 1);
+        slotModel.setSlot(1, 1);
+        slotModel.setSlot(2, 1);
+        slotModel.setSlot(3, 1);
+        slotModel.setSlot(4, 1);
+        slotModel.setSlot(5, 1);
+        slotModel.setSlot(6, 1);
+        slotModel.setSlot(7, 1);
+        slotModel.setSlot(8, 1);
+        String result = slotModel.matchCheck();
+        assertEquals("Jackpot!!", result);
+        assertEquals(1110, slotModel.getMoney());
+    }
+
 
 }
