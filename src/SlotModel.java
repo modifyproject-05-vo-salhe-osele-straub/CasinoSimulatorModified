@@ -14,6 +14,10 @@ public class SlotModel {
     private int[] slot = new int[9];
     private int bettingMoney = 1;
 
+    private int luckySpinMeter = 0;      // counts spins
+    private static final int LUCKY_MAX = 10; // spins needed for bonus
+
+
     /**
      * SlotModel constructors for slot-machine. Have menuModel, money, and slotView variable.
      *
@@ -52,6 +56,14 @@ public class SlotModel {
         }
 
         Random randomNumber = new Random();
+
+        //ADDED: increment lucky spin meter on every pull
+        luckySpinMeter++;
+
+        //check if lucky spin is active
+        boolean luckySpinActive = (luckySpinMeter >= LUCKY_MAX);
+
+
         if (MainMenuView.difficulty == "Hard") {
             for (int i = 0; i < 9; i++) {
                 slot[i] = randomNumber.nextInt(11);
@@ -73,6 +85,14 @@ public class SlotModel {
                 slot[i] = val;
             }
 
+        }
+        // Lucky Spin effect (guaranteed small win)
+        if (luckySpinActive) {
+            // Force center slot to a winning number
+            slot[4] = 7;
+
+            // Reset meter after bonus
+            luckySpinMeter = 0;
         }
     }
 
