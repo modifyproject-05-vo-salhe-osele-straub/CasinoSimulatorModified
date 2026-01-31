@@ -44,3 +44,4 @@ out when testing on Windows.
 ### New Features/Modifications Added
 - Added testing that followed TDD for a jackpot feature in the slots game.
 - New jackpot feature for slots game. Hit all 7s and gain a 100x winout from bets.
+- Added feature that quits the game after a set amount of losses
