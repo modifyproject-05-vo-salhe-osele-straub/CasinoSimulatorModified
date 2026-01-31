@@ -19,15 +19,14 @@ public class MainMenuModel {
     public static int money; // available money to play
 
     /**
-     * To emulate 'credibility', a player can no longer freely be given money, 
-     * but is instead rewarded based on their performance. If a player no longer seems worth investing in, multiplier 
-     * reaches 0 the game will quit, effectively 'kicking' them from the casino. The metric of credibility is if a profit is 
-     * made after a session of play, in any game the choose.
+     * The player is very aware of how dangerous of a situation gambling can put him in. 
+     * Thanks to his wiles and sheer discipline, he limits himself to MAX_LOSS_COUNT losses/withdrawals. Once he's reached three he's out.
+     * 
+     * Quits once addMoney is called MAX_LOSS_COUNT times.
      */
 
-    private float moneyMultiplier = 1.0f;
-    private final float MAX_MULTIPLIER = 5.0f;
-
+    private static int lossCount = 0;
+    private static final int MAX_LOSS_COUNT = 3;
     /**
      * Constructor.
      * Initializes the necessary variables for the main menu; tries to read savedata.txt if
@@ -57,24 +56,18 @@ public class MainMenuModel {
      * starts slot machine
      */
     public void startSlot() {
-        int prevMoney = money;
         slotModel = new SlotModel(this, money);
 
-        if (money < prevMoney) moneyMultiplier -= 0.5f;
-        else if (money > prevMoney && moneyMultiplier < MAX_MULTIPLIER) moneyMultiplier += 0.5f;
-        if (moneyMultiplier == 0) exit();
+        if (lossCount == MAX_LOSS_COUNT) exit();
     }
 
     /**
      * starts blackjack game
      */
     public void startBlackjack() { 
-        int prevMoney = money;
         blackjackModel = new BlackjackModel(this, money); 
 
-        if (money < prevMoney) moneyMultiplier -= 0.5f;
-        else if (money > prevMoney && moneyMultiplier < MAX_MULTIPLIER) moneyMultiplier += 0.5f;
-        if (moneyMultiplier == 0) exit();
+        if (lossCount == MAX_LOSS_COUNT) exit();
     }
 
     /**
@@ -86,7 +79,10 @@ public class MainMenuModel {
     /**
      * adds $100 to players balance
      */
-    public static void addMoney(){money = 100 * moneyMultipler;}
+    public static void addMoney(){
+        money += 100;
+        lossCount++;
+    }
 
     /**
      * Saves the data and exits the program
