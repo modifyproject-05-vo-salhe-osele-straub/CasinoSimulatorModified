@@ -39,3 +39,8 @@ Testing was perfomed using JUnit testing suite primarily on macOS. There are two
 **Warning** Some of the tests behave differently if ran on macOS or Windows. For example, when automating clicking on a bet label, say the $5 label, macOS requires two
 clicks in order to register one click whereas on Windows only one click is sufficient. This means that one pair of mousePress, mouseRelease functions need to be commented
 out when testing on Windows.
+
+
+### New Features/Modifications Added
+- Added testing that followed TDD for a jackpot feature in the slots game.
+- New jackpot feature for slots game. Hit all 7s and gain a 100x winout from bets.
