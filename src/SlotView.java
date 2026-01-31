@@ -152,11 +152,24 @@ public class SlotView extends JFrame {
         slotlabel.setBounds(-70, -20, 900, 800);
         slotlabel.setIcon(slotmachine);
 
-        ImageIcon background;
-        JLabel IconBackground = new JLabel();
-        background = new ImageIcon("Assets/SlotMachineGUI/" + "SlotBackground.png");
+    // engagement based background
+
+        BufferedImage backgroundImage = null;
+
+        try {
+            backgroundImage = ImageIO.read(
+                    new File("Assets/SlotMachineGUI/SlotBackground.png")
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        TintedLabel IconBackground = new TintedLabel(backgroundImage);
         IconBackground.setBounds(180, 270, 450, 300);
-        IconBackground.setIcon(background);
+        Timer timer = new Timer(16, e -> {
+            float hue = (System.currentTimeMillis() % 3000) / 3000f;
+            IconBackground.setTint(Color.getHSBColor(hue, 1f, 1f));
+        });
+        timer.start();
 
 
         //Handle pulling button.
