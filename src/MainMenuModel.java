@@ -19,6 +19,16 @@ public class MainMenuModel {
     public static int money; // available money to play
 
     /**
+     * To emulate 'credibility', a player can no longer freely be given money, 
+     * but is instead rewarded based on their performance. If a player no longer seems worth investing,
+     * The game will quit, effectively 'kicking' them from the casino, if their multiplier reaches 0, as the player will 
+     * now be charged by the casino to play (and that's just not worth it). The metric of credibility is if a profit is 
+     * made after a session of play, in any game the choose.
+     */
+
+    private float moneyMultiplie = 1.0f;
+
+    /**
      * Constructor.
      * Initializes the necessary variables for the main menu; tries to read savedata.txt if
      * it exists.
@@ -47,13 +57,23 @@ public class MainMenuModel {
      * starts slot machine
      */
     public void startSlot() {
+        int prevMoney = money;
         slotModel = new SlotModel(this, money);
+
+        moneyMultiplier += (money > prevMoney)? 0.5f: -0.5f;
+        if (moneyMultiplier == 0) exit();
     }
 
     /**
      * starts blackjack game
      */
-    public void startBlackjack() { blackjackModel = new BlackjackModel(this, money); }
+    public void startBlackjack() { 
+        int prevMoney = money;
+        blackjackModel = new BlackjackModel(this, money); 
+
+        moneyMultiplier += (money > prevMoney)? 0.5f: -0.5f;
+        if (moneyMultiplier == 0) exit();
+    }
 
     /**
      * returns amount of money player has
@@ -64,7 +84,7 @@ public class MainMenuModel {
     /**
      * adds $100 to players balance
      */
-    public static void addMoney(){money = 100;}
+    public static void addMoney(){money = 100 * moneyMultipler;}
 
     /**
      * Saves the data and exits the program
