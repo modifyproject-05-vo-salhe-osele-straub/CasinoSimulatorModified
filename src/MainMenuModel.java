@@ -20,13 +20,13 @@ public class MainMenuModel {
 
     /**
      * To emulate 'credibility', a player can no longer freely be given money, 
-     * but is instead rewarded based on their performance. If a player no longer seems worth investing,
-     * The game will quit, effectively 'kicking' them from the casino, if their multiplier reaches 0, as the player will 
-     * now be charged by the casino to play (and that's just not worth it). The metric of credibility is if a profit is 
+     * but is instead rewarded based on their performance. If a player no longer seems worth investing in, multiplier 
+     * reaches 0 the game will quit, effectively 'kicking' them from the casino. The metric of credibility is if a profit is 
      * made after a session of play, in any game the choose.
      */
 
-    private float moneyMultiplie = 1.0f;
+    private float moneyMultiplier = 1.0f;
+    private final float MAX_MULTIPLIER = 5.0f;
 
     /**
      * Constructor.
@@ -60,7 +60,8 @@ public class MainMenuModel {
         int prevMoney = money;
         slotModel = new SlotModel(this, money);
 
-        moneyMultiplier += (money > prevMoney)? 0.5f: -0.5f;
+        if (money < prevMoney) moneyMultiplier -= 0.5f;
+        else if (money > prevMoney && moneyMultiplier < MAX_MULTIPLIER) moneyMultiplier += 0.5f;
         if (moneyMultiplier == 0) exit();
     }
 
@@ -71,7 +72,8 @@ public class MainMenuModel {
         int prevMoney = money;
         blackjackModel = new BlackjackModel(this, money); 
 
-        moneyMultiplier += (money > prevMoney)? 0.5f: -0.5f;
+        if (money < prevMoney) moneyMultiplier -= 0.5f;
+        else if (money > prevMoney && moneyMultiplier < MAX_MULTIPLIER) moneyMultiplier += 0.5f;
         if (moneyMultiplier == 0) exit();
     }
 
