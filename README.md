@@ -45,4 +45,4 @@ out when testing on Windows.
 - Added testing that followed TDD for a jackpot feature in the slots game.
 - New jackpot feature for slots game. Hit all 7s and gain a 100x winout from bets.
 - Added feature that quits the game after a set amount of losses
-- Added lucky meter feature that imrpoves the chances of getting a 777 jackpot after 10 spins. 
+- Added lucky meter feature that increases the chances of getting a 777 jackpot after 10 spins. 
